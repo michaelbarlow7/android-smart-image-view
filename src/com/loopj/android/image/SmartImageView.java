@@ -13,7 +13,7 @@ public class SmartImageView extends ImageView {
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
 
     private SmartImageTask currentTask;
-
+    public static String url;
 
     public SmartImageView(Context context) {
         super(context);
@@ -30,30 +30,37 @@ public class SmartImageView extends ImageView {
 
     // Helpers to set image by URL
     public void setImageUrl(String url) {
+        this.url = url;
         setImage(new WebImage(url));
     }
 
     public void setImageUrl(String url, int sampleSize) {
+        this.url = url;
         setImage(new WebImage(url, sampleSize));
     }
 
     public void setImageUrl(String url, SmartImageTask.OnCompleteListener completeListener) {
+        this.url = url;
         setImage(new WebImage(url), completeListener);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource) {
+        this.url = url;
         setImage(new WebImage(url), fallbackResource);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource, SmartImageTask.OnCompleteListener completeListener) {
+        this.url = url;
         setImage(new WebImage(url), fallbackResource, completeListener);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource) {
+        this.url = url;
         setImage(new WebImage(url), fallbackResource, loadingResource);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource, SmartImageTask.OnCompleteListener completeListener) {
+        this.url = url;
         setImage(new WebImage(url), fallbackResource, loadingResource, completeListener);
     }
 
@@ -127,6 +134,13 @@ public class SmartImageView extends ImageView {
 
         // Run the task in a threadpool
         threadPool.execute(currentTask);
+    }
+
+    public void removeFromMemoryCache()
+    {
+        WebImageCache cache = WebImage.getWebImageCache(null);
+
+        cache.removeFromMemory(this.url);
     }
 
     public static void cancelAllTasks() {

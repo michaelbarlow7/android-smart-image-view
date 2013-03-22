@@ -79,6 +79,22 @@ public class WebImageCache {
         }
     }
 
+    public void removeFromMemory(String url) {
+        if(url == null){
+            return;
+        }
+
+        // Remove from memory cache
+        String key = getCacheKey(url);
+        SoftReference<Bitmap> softRef = memoryCache.get(url);
+        if(softRef != null){
+            Bitmap bitmap = softRef.get();
+            bitmap.recycle();
+        }
+
+        memoryCache.remove(key);
+    }
+
     public void clear() {
         // Remove everything from memory cache
         memoryCache.clear();
@@ -123,7 +139,7 @@ public class WebImageCache {
         });
     }
 
-    private Bitmap getBitmapFromMemory(String url) {
+    public Bitmap getBitmapFromMemory(String url) {
         Bitmap bitmap = null;
         SoftReference<Bitmap> softRef = memoryCache.get(getCacheKey(url));
         if(softRef != null){

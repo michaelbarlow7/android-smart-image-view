@@ -29,6 +29,15 @@ public class WebImage implements SmartImage {
         this.sampleSize = sampleSize;
     }
 
+    public static WebImageCache getWebImageCache(Context context)
+    {
+        if(webImageCache == null) {
+            if (context != null)
+                webImageCache = new WebImageCache(context);
+        }
+        return webImageCache;
+    }
+
     public Bitmap getBitmap(Context context) {
         // Don't leak context
         if(webImageCache == null) {
