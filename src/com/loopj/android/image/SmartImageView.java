@@ -33,6 +33,10 @@ public class SmartImageView extends ImageView {
         setImage(new WebImage(url));
     }
 
+    public void setImageUrl(String url, int sampleSize) {
+        setImage(new WebImage(url, sampleSize));
+    }
+
     public void setImageUrl(String url, SmartImageTask.OnCompleteListener completeListener) {
         setImage(new WebImage(url), completeListener);
     }

@@ -17,8 +17,16 @@ public class WebImage implements SmartImage {
 
     private String url;
 
+    private int sampleSize;
+
     public WebImage(String url) {
         this.url = url;
+        this.sampleSize = 1;
+    }
+
+    public WebImage(String url, int sampleSize) {
+        this.url = url;
+        this.sampleSize = sampleSize;
     }
 
     public Bitmap getBitmap(Context context) {
@@ -53,6 +61,8 @@ public class WebImage implements SmartImage {
             BitmapFactory.Options options = new BitmapFactory.Options();
             //options.inSampleSize = 8
             options.inPurgeable = true;
+            if (this.sampleSize > 1)
+                options.inSampleSize = this.sampleSize;
             Rect rect = new Rect(-1,-1,-1,-1);
             bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent(), rect, options);
         }
