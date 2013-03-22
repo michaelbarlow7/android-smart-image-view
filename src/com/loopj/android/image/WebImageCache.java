@@ -136,10 +136,21 @@ public class WebImageCache {
     private Bitmap getBitmapFromDisk(String url) {
         Bitmap bitmap = null;
         if(diskCacheEnabled){
+            BitmapFactory.Options options = new BitmapFactory.Options();
             String filePath = getFilePath(url);
             File file = new File(filePath);
             if(file.exists()) {
-                bitmap = BitmapFactory.decodeFile(filePath);
+                try{
+                  bitmap = BitmapFactory.decodeFile(filePath, options);
+                } catch (OutOfMemoryError e){
+                  e.printStackTrace();
+                  options.inSampleSize = 4;
+                  try{
+                      bitmap = BitmapFactory.decodeFile(filePath, options);
+                  }catch (OutOfMemoryError e2){
+                      e2.printStackTrace();
+                  }
+                }
             }
         }
         return bitmap;
