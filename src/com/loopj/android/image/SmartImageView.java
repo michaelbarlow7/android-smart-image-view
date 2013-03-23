@@ -13,7 +13,7 @@ public class SmartImageView extends ImageView {
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
 
     private SmartImageTask currentTask;
-    public static String url;
+    public String url;
 
     public SmartImageView(Context context) {
         super(context);
