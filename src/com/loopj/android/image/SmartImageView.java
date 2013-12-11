@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 public class SmartImageView extends ImageView {
     private static final int LOADING_THREADS = 4;
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
+    private Bitmap mBitmap;
 
     private SmartImageTask currentTask;
     public String url;
@@ -141,10 +142,22 @@ public class SmartImageView extends ImageView {
         WebImageCache cache = WebImage.getWebImageCache(null);
 
         cache.removeFromMemory(this.url);
+        this.mBitmap = null;
     }
 
     public static void cancelAllTasks() {
         threadPool.shutdownNow();
         threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
     }
+
+    @Override
+    public void setImageBitmap(Bitmap bitmap){
+        this.mBitmap = bitmap;
+        super.setImageBitmap(bitmap);
+    }
+
+    public Bitmap getImageBitmap(){
+        return this.mBitmap;
+    }
+
 }
